@@ -7,5 +7,6 @@ public class ProductRequest {
     private String productName;
     private double interestRate;
     private String description;
+    private double minimumOperatingBalance;
 
 }

@@ -40,12 +40,14 @@ public class Customer {
     @Column(nullable = false)
     private String emailAddress;
     @Column(nullable = false)
-    private String Address;
+    private String address;
 
     @Column(nullable = false)
     private String phoneNumber;
     @OneToMany(mappedBy = "customer")
     private List<Account> savingsAccounts=new ArrayList<>();
+
+    private int password;
 
     @CreationTimestamp
     @Column(nullable = false)

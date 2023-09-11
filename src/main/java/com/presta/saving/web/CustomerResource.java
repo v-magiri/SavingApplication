@@ -1,16 +1,19 @@
 package com.presta.saving.web;
 
+import com.presta.saving.domain.Customer;
+import com.presta.saving.dto.CustomerDto;
 import com.presta.saving.dto.RestResponse;
 import com.presta.saving.repository.CustomerRepository;
 import com.presta.saving.services.CustomerService;
 import com.presta.saving.web.Request.CustomerRequest;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -42,24 +45,59 @@ public class CustomerResource {
                     HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-//    public ResponseEntity<?> getCustomers(){
-//
-//    }
-//
-//    public ResponseEntity<?> updateCustomer(@RequestBody CustomerRequest customerRequest){
-//
-//    }
-//
-//    public ResponseEntity<?> getCustomerById(){
-//
-//    }
-//
-//
-//    public ResponseEntity<?> deleteProduct(){
-//
-//    }
+    @GetMapping
+    public ResponseEntity<?> getCustomers(){
+        try{
+            List<CustomerDto> customerDtoList=customerRepository.findAllByOrderByCreatedAtDesc();
+            return new ResponseEntity<>(customerDtoList,HttpStatus.OK);
+        }catch (Exception e){
+            String message=String.format("Error occurred while fetching customers");
+            log.error(e.getMessage());
+            return new ResponseEntity<>(new RestResponse(true, message), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateCustomer(@RequestBody CustomerRequest customerRequest,
+                                            @PathVariable Long id){
+        try{
+            Optional<Customer> customer=customerRepository.findById(id);
+            if(customer.isPresent()){
+                Customer updatedCustomer=customer.get();
+                String updatedMessage=customerService.updateCustomerDetails(id,customerRequest);
+                return new ResponseEntity<>(new RestResponse(false,updatedMessage),HttpStatus.OK);
+            }else{
+                return new ResponseEntity<>(new RestResponse(true,"Customer does not Exist"),HttpStatus.BAD_REQUEST);
+            }
+        }catch (Exception e){
+            String message=String.format("Error occurred while updating customer identified by ID: ",id);
+            log.error(e.getMessage());
+            return new ResponseEntity<>(new RestResponse(true, message), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<?> getCustomerById(@PathVariable Long id){
+        try{
+            CustomerDto customerDto=customerRepository.findCustomerById(id);
+            return new ResponseEntity<>(customerDto,HttpStatus.OK);
+        }catch (Exception e){
+            String message=String.format("Error occurred while updating customer identified by ID: ",id);
+            log.error(e.getMessage());
+            return new ResponseEntity<>(new RestResponse(true, message), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
+    @GetMapping(path = "filter/memberNumber")
+    public ResponseEntity<?> getCustomerByMemberNumber(@RequestParam("memberNumber") String memberNumber){
+        try{
+            CustomerDto customerDto=customerService.getCustomerByMemberNumber(memberNumber);
+            return new ResponseEntity<>(customerDto,HttpStatus.OK);
+        }catch (Exception e){
+            String message=String.format("Error occurred while updating customer identified by memberNumber: ",memberNumber);
+            log.error(e.getMessage());
+            return new ResponseEntity<>(new RestResponse(true, message), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 }

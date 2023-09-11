@@ -12,9 +12,6 @@ public interface CustomerDto {
 
     String getEmailAddress();
     String getAddress();
-    List<AccountView> getSavingAccounts();
 
-    interface AccountView{
-
-    }
+    String getPhoneNumber();
 }

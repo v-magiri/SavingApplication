@@ -29,6 +29,7 @@ public class SavingProductService {
             product.setDescription(productRequest.getDescription());
             product.setInterestRate(productRequest.getInterestRate());
             product.setCreatedAt(LocalDateTime.now());
+            product.setMinimumOperatingBalance(product.getMinimumOperatingBalance());
             product.setCreatedBy("SYSTEM");
 
             int randNo = (int) ((Math.random() * (99999 - 1)) + 1);
@@ -61,6 +62,12 @@ public class SavingProductService {
                 !productRequest.getDescription().equals(savingProduct.getDescription())){
                 savingProduct.setDescription(productRequest.getDescription());
             }
+            //update the minimum operating balance for a saving product
+            if(productRequest.getMinimumOperatingBalance() >0 &&
+                    (productRequest.getMinimumOperatingBalance() != savingProduct.getMinimumOperatingBalance())){
+                savingProduct.setMinimumOperatingBalance(productRequest.getMinimumOperatingBalance());
+            }
+
             //update the interest rate for a saving product
             if(productRequest.getInterestRate() >0 &&
                     (productRequest.getInterestRate() != savingProduct.getInterestRate())){

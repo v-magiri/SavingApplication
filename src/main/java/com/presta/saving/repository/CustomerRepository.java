@@ -20,5 +20,9 @@ public interface CustomerRepository extends CrudRepository<Customer,Long> {
 
     CustomerDto findCustomerByIdNumber(String idNumber);
 
+    CustomerDto findCustomerById(long id);
+
+    Customer getCustomerByMemberNumber(String memberNumber);
+
 
 }

@@ -26,6 +26,9 @@ public class Account {
     @Id
     private Long id;
 
+    @Column(nullable = false)
+    private String accountNumber;
+
     @ManyToOne
     private Customer customer;
 

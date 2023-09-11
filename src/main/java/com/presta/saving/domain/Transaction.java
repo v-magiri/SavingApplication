@@ -1,5 +1,7 @@
 package com.presta.saving.domain;
 
+import com.presta.saving.domain.Enums.PaymentMethod;
+import com.presta.saving.domain.Enums.TransactionType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,7 +38,11 @@ public class Transaction {
     private double amount;
 
     @Column(nullable = false)
-    private String paymentMethod;
+    private TransactionType transactionType;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod paymentMethod;
 
     @ManyToOne
     private Account account;

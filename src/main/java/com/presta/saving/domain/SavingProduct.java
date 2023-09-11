@@ -28,6 +28,10 @@ public class SavingProduct {
 
     @Column(nullable = false,unique = true)
     private String productName;
+
+    @Column(nullable = false)
+    private double minimumOperatingBalance;
+
     @Column(nullable = false)
     private double interestRate;
 
