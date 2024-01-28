@@ -45,7 +45,13 @@ public class Transaction {
     private PaymentMethod paymentMethod;
 
     @ManyToOne
-    private Account account;
+    @JoinColumn(name="source_account_id")
+    private Account sourceAccount;
+
+    @ManyToOne
+    @JoinColumn(name="receipt_account_id")
+    private Account receiptAccount;
+
 
 
 }

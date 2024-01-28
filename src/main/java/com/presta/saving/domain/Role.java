@@ -1,2 +1,4 @@
-package com.presta.saving.domain;public class Role {
+package com.presta.saving.domain;
+
+public class Role {
 }

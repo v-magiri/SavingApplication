@@ -56,6 +56,4 @@ public class SavingProduct {
     @Column(name = "updatedBy")
     private String updatedBy;
 
-
-
 }

@@ -6,10 +6,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Getter
@@ -18,7 +22,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name="tbl_customers")
-public class Customer {
+public class Customer  {
     @SequenceGenerator(
             name = "customer_sequence",
             sequenceName = "customer_sequence",
@@ -47,8 +51,6 @@ public class Customer {
     @OneToMany(mappedBy = "customer")
     private List<Account> savingsAccounts=new ArrayList<>();
 
-    private int password;
-
     @CreationTimestamp
     @Column(nullable = false)
     private LocalDateTime createdAt;
@@ -57,6 +59,9 @@ public class Customer {
     private String createdBy;
 
     private LocalDateTime updateAt;
+
+    @Column(length = 4)
+    private String password;
 
     private String updatedBy;
 
